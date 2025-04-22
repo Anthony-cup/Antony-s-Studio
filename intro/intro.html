@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animación de Carga con Emoji</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #121212;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .loading-container {
+            position: relative;
+            width: 80%;
+            max-width: 600px;
+            height: 400px;
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .loading-bar-container {
+            width: 80%;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #00b7ff, #7e2bff, #ff2b9d);
+            border-radius: 15px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 15px rgba(126, 43, 255, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading-text {
+            margin-top: 20px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+        
+        .loading-percentage {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+            z-index: 2;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle-anim 1s ease forwards;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        .emoji-container {
+            position: relative;
+            margin-bottom: 30px;
+            animation: emoji-float 3s infinite ease-in-out;
+            transform-origin: center;
+        }
+        
+        .emoji-face {
+            font-size: 60px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            background-color: #ffdf00;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 223, 0, 0.5);
+        }
+        
+        .emoji-arm {
+            position: absolute;
+            width: 20px;
+            height: 50px;
+            background-color: #8B4513;
+            border-radius: 5px;
+        }
+        
+        .emoji-arm-left {
+            top: 50%;
+            left: -25px;
+            transform-origin: top right;
+            transform: rotate(20deg);
+        }
+        
+        .emoji-arm-right {
+            top: 50%;
+            right: -25px;
+            transform-origin: top left;
+            transform: rotate(-20deg);
+        }
+        
+        .emoji-text {
+            font-size: 60px;
+            line-height: 1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .glow {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0), 
+                rgba(255, 255, 255, 0.8), 
+                rgba(255, 255, 255, 0));
+            top: 0;
+            left: -100%;
+            animation: glow-move 2s infinite;
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
+            animation: bubble-rise 4s linear infinite;
+            opacity: 0;
+        }
+        
+        /* Marca de agua estilo programador */
+        .watermark {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            color: rgba(0, 255, 136, 0.7);
+            text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+            user-select: none;
+            z-index: 10;
+            animation: glitch 3s infinite alternate;
+            letter-spacing: 2px;
+            transform: skew(-5deg);
+            white-space: nowrap;
+        }
+        
+        .watermark:before {
+            content: "<";
+            margin-right: 2px;
+            animation: blink 1s infinite;
+        }
+        
+        .watermark:after {
+            content: "/>";
+            margin-left: 2px;
+            animation: blink 1s infinite reverse;
+        }
+        
+        .watermark span {
+            animation: numbers 5s infinite;
+        }
+        
+        .watermark .digit {
+            opacity: 0.8;
+            font-size: 12px;
+            position: relative;
+            bottom: -2px;
+        }
+        
+        /* Animaciones */
+        @keyframes sparkle-anim {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1) rotate(180deg); opacity: 1; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+        
+        @keyframes glow-move {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        @keyframes emoji-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes arm-wave-left {
+            0%, 100% { transform: rotate(20deg); }
+            50% { transform: rotate(70deg); }
+        }
+        
+        @keyframes arm-wave-right {
+            0%, 100% { transform: rotate(-20deg); }
+            50% { transform: rotate(-70deg); }
+        }
+        
+        @keyframes bubble-rise {
+            0% { 
+                transform: translateY(0) translateX(0); 
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translateY(-150px) translateX(20px); 
+                opacity: 0;
+            }
+        }
+        
+        @keyframes glitch {
+            0% { 
+                transform: skew(-5deg); 
+                opacity: 0.7;
+            }
+            10% { 
+                transform: skew(-2deg); 
+                opacity: 0.9;
+            }
+            11% { 
+                transform: skew(-5deg); 
+                opacity: 0.7;
+                text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+            }
+            12% { 
+                transform: skew(-5deg); 
+                opacity: 0.7;
+                text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+            }
+            44% { 
+                transform: skew(-5deg); 
+                opacity: 0.7;
+                text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+            }
+            45% { 
+                transform: skew(5deg); 
+                opacity: 0.9;
+                text-shadow: 0 0 8px rgba(0, 255, 136, 0.8);
+            }
+            100% { 
+                transform: skew(-5deg); 
+                opacity: 0.7;
+                text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+            }
+        }
+
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes numbers {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="emoji-container">
+            <div class="emoji-face">
+                <div class="emoji-arm emoji-arm-left"></div>
+                <div class="emoji-arm emoji-arm-right"></div>
+                <div class="emoji-text">😊</div>
+                <div class="glow"></div>
+            </div>
+        </div>
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loadingBar"></div>
+            <div class="loading-percentage" id="loadingPercentage">0%</div>
+        </div>
+        <div class="loading-text">Cargando... Por favor espere.</div>
+        <div class="watermark">programador_Antony</div>
+    </div>
+
+    <script>
+        let loadingBar = document.getElementById('loadingBar');
+        let loadingPercentage = document.getElementById('loadingPercentage');
+        let currentPercentage = 0;
+
+        setInterval(() => {
+            if (currentPercentage < 100) {
+                currentPercentage++;
+                loadingBar.style.width = currentPercentage + '%';
+                loadingPercentage.innerText = currentPercentage + '%';
+            }
+        }, 30);
+    </script>
+</body>
+</html>
