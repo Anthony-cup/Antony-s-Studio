@@ -65,7 +65,7 @@
         #panel {
             position: fixed;
             top: 0;
-            left: -250px; /* Comienza oculto fuera de la pantalla */
+            left: -250px;
             width: 250px;
             height: 100%;
             background-color: #333;
@@ -99,7 +99,6 @@
             cursor: pointer;
         }
 
-        /* Tres puntos en la esquina */
         .three-dots {
             font-size: 2rem;
             cursor: pointer;
@@ -149,8 +148,8 @@
                 </form>
             </section>
 
-            <!-- Frame del extractor -->
-            <iframe id="extractor-frame" src="detec/detec.html"></iframe>
+            <!-- Frame para cargar páginas -->
+            <iframe id="extractor-frame" src=""></iframe>
         </main>
     </div>
 
@@ -161,6 +160,7 @@
         <a href="javascript:void(0)" onclick="mostrarSeccion('servicios')">Servicios</a>
         <a href="javascript:void(0)" onclick="mostrarSeccion('contacto')">Contacto</a>
         <a href="javascript:void(0)" onclick="mostrarExtractor()">Detector de movimiento</a>
+        <a href="javascript:void(0)" onclick="mostrarAmix()">Para mi amiga 🤗</a>
     </div>
 
     <!-- Tres puntos para abrir el panel -->
@@ -180,24 +180,38 @@
             document.getElementById("extractor-frame").style.display = "none";
 
             document.getElementById(id).style.display = "block";
-            cerrarPanel(); // Cerrar el panel al seleccionar una opción
+            cerrarPanel();
         }
 
         function mostrarExtractor() {
+            ocultarSecciones();
+            const frame = document.getElementById("extractor-frame");
+            frame.src = "detec/detec.html";
+            frame.style.display = "block";
+            cerrarPanel();
+        }
+
+        function mostrarAmix() {
+            ocultarSecciones();
+            const frame = document.getElementById("extractor-frame");
+            frame.src = "amix/contraseña.html";
+            frame.style.display = "block";
+            cerrarPanel();
+        }
+
+        function ocultarSecciones() {
             document.getElementById("inicio").style.display = "none";
             document.getElementById("servicios").style.display = "none";
             document.getElementById("contacto").style.display = "none";
-
-            document.getElementById("extractor-frame").style.display = "block";
-            cerrarPanel(); // Cerrar el panel al seleccionar el extractor
+            document.getElementById("extractor-frame").style.display = "none";
         }
 
         function abrirPanel() {
-            document.getElementById("panel").style.left = "0"; // Mostrar panel deslizante
+            document.getElementById("panel").style.left = "0";
         }
 
         function cerrarPanel() {
-            document.getElementById("panel").style.left = "-250px"; // Ocultar panel deslizante
+            document.getElementById("panel").style.left = "-250px";
         }
     </script>
 
