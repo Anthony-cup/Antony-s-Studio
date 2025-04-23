@@ -217,7 +217,53 @@
 
 
 
-</script>
+
+
+<title>Reproducir Música</title>
+</head>
+<body>
+
+ 
+
+  <audio id="bgmusic" loop>
+    <source src="mus/m1.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
+
+  <button id="botonManual" style="display:none;" onclick="reproducirManual()">Haz clic para reproducir la música</button>
+
+  <script>
+    let segundosRestantes = 3;
+    const mensaje = document.getElementById('mensaje');
+    const audio = document.getElementById('bgmusic');
+    const botonManual = document.getElementById('botonManual');
+
+    const intervalo = setInterval(() => {
+      mensaje.innerText = `La música se reproducirá en ${segundosRestantes} segundos...`;
+      segundosRestantes--;
+
+      if (segundosRestantes < 0) {
+        clearInterval(intervalo);
+        audio.play()
+          .then(() => {
+            mensaje.innerText = "¡Música reproduciéndose!";
+          })
+          .catch(err => {
+            mensaje.innerText = "La reproducción automática fue bloqueada.";
+            botonManual.style.display = "block";
+            console.warn("Reproducción automática bloqueada:", err);
+          });
+      }
+    }, 1000);
+
+    function reproducirManual() {
+      audio.play();
+      mensaje.innerText = "¡Música reproduciéndose!";
+      botonManual.style.display = "none";
+    }
+  </script>
+
+
 
 </body>
 </html>
