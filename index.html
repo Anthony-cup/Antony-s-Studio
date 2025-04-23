@@ -180,6 +180,7 @@
             document.getElementById("extractor-frame").style.display = "none";
 
             document.getElementById(id).style.display = "block";
+            cerrarPanel(); // Cerrar el panel al seleccionar una opción
         }
 
         function mostrarExtractor() {
@@ -188,6 +189,7 @@
             document.getElementById("contacto").style.display = "none";
 
             document.getElementById("extractor-frame").style.display = "block";
+            cerrarPanel(); // Cerrar el panel al seleccionar el extractor
         }
 
         function abrirPanel() {
