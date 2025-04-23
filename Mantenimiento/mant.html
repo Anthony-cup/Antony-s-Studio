@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Control de Mantenimiento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    button {
+      padding: 1rem 2rem;
+      margin: 1rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .on { background: crimson; color: white; }
+    .off { background: green; color: white; }
+    .password-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .password-container input {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Control de Mantenimiento</h1>
+  <p>Activa o desactiva el modo mantenimiento del sitio.</p>
+
+  <!-- Contenedor de contraseña -->
+  <div id="password-container" class="password-container">
+    <label for="password">Ingrese la contraseña:</label>
+    <input type="password" id="password" placeholder="Contraseña" />
+    <button onclick="verificarContraseña()">Ingresar</button>
+    <p id="error-message" style="color: red; display: none;">Contraseña incorrecta. Intenta nuevamente.</p>
+  </div>
+
+  <!-- Botones para activar/desactivar mantenimiento -->
+  <button class="on" id="activarBtn" onclick="activar()" style="display: none;">🔧 Activar Mantenimiento</button>
+  <button class="off" id="desactivarBtn" onclick="desactivar()" style="display: none;">✅ Desactivar Mantenimiento</button>
+
+  <script>
+    // Mostrar el formulario de contraseña
+    window.addEventListener('DOMContentLoaded', () => {
+      const passwordContainer = document.getElementById('password-container');
+      passwordContainer.style.display = 'flex';
+    });
+
+    // Verificar la contraseña ingresada
+    function verificarContraseña() {
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('error-message');
+      
+      if (password === '18') {
+        // Si la contraseña es correcta, mostrar los botones
+        document.getElementById('activarBtn').style.display = 'inline-block';
+        document.getElementById('desactivarBtn').style.display = 'inline-block';
+        document.getElementById('password-container').style.display = 'none';
+      } else {
+        // Si la contraseña es incorrecta, mostrar el mensaje de error
+        errorMessage.style.display = 'block';
+      }
+    }
+
+    function activar() {
+      localStorage.setItem('modo_mantenimiento', 'activo');
+      alert('Modo mantenimiento ACTIVADO');
+    }
+
+    function desactivar() {
+      localStorage.setItem('modo_mantenimiento', 'inactivo');
+      alert('Modo mantenimiento DESACTIVADO');
+    }
+  </script>
+</body>
+</html>
