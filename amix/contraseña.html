@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso Privado 💖</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(to right, #ffe0f0, #e0f7ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            max-width: 400px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            color: #ff69b4;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        input[type="password"] {
+            padding: 10px;
+            width: 100%;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 Acceso Privado</h1>
+        <p class="message">Esta opción es solo para mi amiguita... 🐰💕</p>
+        <input type="password" id="password" placeholder="Ingresa la contraseña...">
+        <button onclick="verificar()">Entrar 💌</button>
+    </div>
+
+    <script>
+        function verificar() {
+            const clave = document.getElementById("password").value;
+            if (clave === "18") {
+                window.location.href = "amix.html"; // Redirige al siguiente archivo
+            } else {
+                alert("¡Oops! Esa no es la contraseña correcta 🥺. Intenta de nuevo 💭");
+            }
+        }
+    </script>
+</body>
+</html>
