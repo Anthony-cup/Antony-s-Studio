@@ -118,8 +118,10 @@
     <!-- Contenido principal -->
     <div id="main-content">
         <header>
-            <h1>Antony's Studio</h1>
+            <h1 >Antony's Studio</h1>
+            
         </header>
+        
 
         <main>
             <section id="inicio">
@@ -216,52 +218,41 @@
     </script>
 
 
+<button id="toggleBtn" style="font-size: 1.5rem; border: none; background: none; color: white; cursor: pointer;">🔊</button>
 
-
-
-<title>Reproducir Música</title>
-</head>
-<body>
-
- 
-
-  <audio id="bgmusic" loop>
+<audio id="bgmusic" loop>
     <source src="mus/m1.mp3" type="audio/mpeg">
     Tu navegador no soporta audio.
   </audio>
-
-  <button id="botonManual" style="display:none;" onclick="reproducirManual()">Haz clic para reproducir la música</button>
-
+  
   <script>
-    let segundosRestantes = 3;
-    const mensaje = document.getElementById('mensaje');
-    const audio = document.getElementById('bgmusic');
-    const botonManual = document.getElementById('botonManual');
-
-    const intervalo = setInterval(() => {
-      mensaje.innerText = `La música se reproducirá en ${segundosRestantes} segundos...`;
-      segundosRestantes--;
-
-      if (segundosRestantes < 0) {
-        clearInterval(intervalo);
-        audio.play()
-          .then(() => {
-            mensaje.innerText = "¡Música reproduciéndose!";
-          })
-          .catch(err => {
-            mensaje.innerText = "La reproducción automática fue bloqueada.";
-            botonManual.style.display = "block";
-            console.warn("Reproducción automática bloqueada:", err);
-          });
-      }
-    }, 1000);
-
-    function reproducirManual() {
-      audio.play();
-      mensaje.innerText = "¡Música reproduciéndose!";
-      botonManual.style.display = "none";
-    }
+    window.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('bgmusic');
+      const btn = document.getElementById('toggleBtn');
+      let reproduciendo = false;
+  
+      btn.addEventListener('click', () => {
+        if (!reproduciendo) {
+          audio.play()
+            .then(() => {
+              btn.textContent = "🔇";
+              reproduciendo = true;
+            })
+            .catch(err => {
+              alert("Haz clic de nuevo para permitir la reproducción.");
+              console.warn("Bloqueo de reproducción automática:", err);
+            });
+        } else {
+          audio.pause();
+          btn.textContent = "🔊";
+          reproduciendo = false;
+        }
+      });
+    });
   </script>
+  
+  
+  
 
 
 
