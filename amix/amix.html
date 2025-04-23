@@ -685,11 +685,41 @@
             crearConfetti(container);
         });
     </script>
+
+
+
 <audio id="musica" autoplay loop>
     <source src="mus/1.mp3" type="audio/mpeg">
     Tu navegador no soporta audio HTML5.
-</audio>
-
+  </audio>
+  
+  <!-- Botón para silenciar o volver a reproducir -->
+  <button id="toggleBtn" style="position: fixed; top: 20px; right: 20px; font-size: 2rem; border: none; background: none; color: white; cursor: pointer; z-index: 999;">🔇</button>
+  
+  <!-- Script para controlar el botón -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('musica');
+      const btn = document.getElementById('toggleBtn');
+      let reproduciendo = true;
+  
+      btn.addEventListener('click', () => {
+        if (reproduciendo) {
+          audio.pause();
+          btn.textContent = "open🔊";
+          reproduciendo = false;
+        } else {
+          audio.play().then(() => {
+            btn.textContent = "off🔇";
+            reproduciendo = true;
+          }).catch(err => { 
+            alert("Haz clic otra vez si no suena.");
+            console.warn("Error al reproducir:", err);
+          });
+        }
+      });
+    });
+  </script>
     
 </body>
 </html>
