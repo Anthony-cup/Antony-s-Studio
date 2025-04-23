@@ -107,7 +107,6 @@
             left: 20px;
             z-index: 10000;
         }
-
     </style>
 </head>
 <body>
@@ -118,10 +117,8 @@
     <!-- Contenido principal -->
     <div id="main-content">
         <header>
-            <h1 >Antony's Studio</h1>
-            
+            <h1>Antony's Studio</h1>
         </header>
-        
 
         <main>
             <section id="inicio">
@@ -163,6 +160,7 @@
         <a href="javascript:void(0)" onclick="mostrarSeccion('contacto')">Contacto</a>
         <a href="javascript:void(0)" onclick="mostrarExtractor()">Detector de movimiento</a>
         <a href="javascript:void(0)" onclick="mostrarAmix()">Para mi amiga 🤗</a>
+        <a href="javascript:void(0)" onclick="mostrarCarrucel()">Carrucel 0.01</a>
     </div>
 
     <!-- Tres puntos para abrir el panel -->
@@ -201,6 +199,14 @@
             cerrarPanel();
         }
 
+        function mostrarCarrucel() {
+            ocultarSecciones();
+            const frame = document.getElementById("extractor-frame");
+            frame.src = "carrucel/circulo/ruleta.html";
+            frame.style.display = "block";
+            cerrarPanel();
+        }
+
         function ocultarSecciones() {
             document.getElementById("inicio").style.display = "none";
             document.getElementById("servicios").style.display = "none";
@@ -217,44 +223,39 @@
         }
     </script>
 
+    <!-- Botón para música -->
+    <button id="toggleBtn" style="font-size: 1.5rem; border: none; background: none; color: white; cursor: pointer;">🔊</button>
 
-<button id="toggleBtn" style="font-size: 1.5rem; border: none; background: none; color: white; cursor: pointer;">🔊</button>
+    <audio id="bgmusic" loop>
+        <source src="mus/m1.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio.
+    </audio>
 
-<audio id="bgmusic" loop>
-    <source src="mus/m1.mp3" type="audio/mpeg">
-    Tu navegador no soporta audio.
-  </audio>
-  
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const audio = document.getElementById('bgmusic');
-      const btn = document.getElementById('toggleBtn');
-      let reproduciendo = false;
-  
-      btn.addEventListener('click', () => {
-        if (!reproduciendo) {
-          audio.play()
-            .then(() => {
-              btn.textContent = "🔇";
-              reproduciendo = true;
-            })
-            .catch(err => {
-              alert("Haz clic de nuevo para permitir la reproducción.");
-              console.warn("Bloqueo de reproducción automática:", err);
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('bgmusic');
+            const btn = document.getElementById('toggleBtn');
+            let reproduciendo = false;
+
+            btn.addEventListener('click', () => {
+                if (!reproduciendo) {
+                    audio.play()
+                        .then(() => {
+                            btn.textContent = "🔇";
+                            reproduciendo = true;
+                        })
+                        .catch(err => {
+                            alert("Haz clic de nuevo para permitir la reproducción.");
+                            console.warn("Bloqueo de reproducción automática:", err);
+                        });
+                } else {
+                    audio.pause();
+                    btn.textContent = "🔊";
+                    reproduciendo = false;
+                }
             });
-        } else {
-          audio.pause();
-          btn.textContent = "🔊";
-          reproduciendo = false;
-        }
-      });
-    });
-  </script>
-  
-  
-  
-
-
+        });
+    </script>
 
 </body>
 </html>
