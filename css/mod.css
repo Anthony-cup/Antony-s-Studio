@@ -1,0 +1,300 @@
+/* mod.css - Estilos LED y animaciones para index.html */
+
+/* Importación de fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&family=Orbitron:wght@400;700&display=swap');
+
+/* Estilos generales con tema código/programador */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Source Code Pro', monospace;
+  background-color: #0c0c16;
+  color: #e0e0ff;
+  background-image: 
+    linear-gradient(rgba(12, 12, 22, 0.9), rgba(12, 12, 22, 0.9)),
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23161630' fill-opacity='0.4'%3E%3Cpath d='M0 0h1v1H0V0zm2 0h1v1H2V0zm2 0h1v1H4V0zm2 0h1v1H6V0zm2 0h1v1H8V0zm2 0h1v1h-1V0zm2 0h1v1h-1V0zm2 0h1v1h-1V0zm2 0h1v1h-1V0zm2 0h1v1h-1V0zm2 0h1v1h-1V0zm2 0h1v1h-1V0z'/%3E%3C/g%3E%3C/svg%3E"),
+    repeating-linear-gradient(transparent, transparent 20px, rgba(70, 80, 230, 0.05) 20px, rgba(70, 80, 230, 0.05) 21px);
+  overflow-x: hidden;
+}
+
+/* Efecto de código en el fondo */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: 
+    repeating-linear-gradient(transparent, transparent 30px, rgba(0, 255, 170, 0.03) 30px, rgba(0, 255, 170, 0.03) 60px);
+  z-index: -1;
+  animation: scrollCode 60s linear infinite;
+}
+
+@keyframes scrollCode {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 1000px; }
+}
+
+/* Header con efecto LED */
+header {
+  background-color: #0a0a1a !important;
+  color: #00ffaa !important;
+  padding: 1.5rem !important;
+  text-align: center;
+  border-bottom: 2px solid #00ffaa;
+  box-shadow: 0 0 15px rgba(0, 255, 170, 0.7);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Título con efecto LED parpadeante */
+header h1 {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 3px;
+  font-size: 2.5rem;
+  margin: 0;
+  text-shadow: 
+    0 0 5px #00ffaa,
+    0 0 15px #00ffaa,
+    0 0 30px #00ffaa;
+  animation: neonPulse 1.5s ease-in-out infinite alternate;
+  position: relative;
+  z-index: 2;
+}
+
+/* Animación de título LED */
+@keyframes neonPulse {
+  0% {
+    text-shadow: 
+      0 0 5px #00ffaa,
+      0 0 10px #00ffaa,
+      0 0 15px #00ffaa;
+  }
+  100% {
+    text-shadow: 
+      0 0 10px #00ffaa,
+      0 0 20px #00ffaa,
+      0 0 30px #00ffaa,
+      0 0 40px #00ffaa;
+  }
+}
+
+/* NUEVA ANIMACIÓN: Lluvia de código en el fondo del título */
+@keyframes codeRain {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(1000%);
+    opacity: 0;
+  }
+}
+
+/* Contenedores de la lluvia de código */
+header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.rain-character {
+  position: absolute;
+  color: #00ff66;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14px;
+  text-shadow: 0 0 5px #00ff66;
+  opacity: 0.7;
+  z-index: 1;
+  animation: codeRain 6s linear infinite;
+}
+
+/* Script para generar la lluvia de código dinámicamente */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 0.7; }
+}
+
+/* Efecto partículas código para el header */
+header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(0, 255, 102, 0.05) 15px, rgba(0, 255, 102, 0.05) 20px),
+    repeating-linear-gradient(180deg, transparent, transparent 15px, rgba(0, 255, 102, 0.05) 15px, rgba(0, 255, 102, 0.05) 20px);
+  opacity: 0.3;
+  z-index: 1;
+}
+
+/* Panel lateral con estilo cibernético */
+#panel {
+  background-color: #0a0a1a !important;
+  border-right: 1px solid #00ffaa;
+  box-shadow: 5px 0 15px rgba(0, 255, 170, 0.3);
+}
+
+#panel a {
+  color: #00ffaa !important;
+  font-family: 'Source Code Pro', monospace;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease !important;
+  font-size: 1.2rem !important;
+  padding: 12px 8px 12px 32px !important;
+  position: relative;
+}
+
+#panel a:hover {
+  background-color: rgba(0, 255, 170, 0.1) !important;
+  border-left: 3px solid #00ffaa;
+  transform: translateX(5px);
+}
+
+#panel a::before {
+  content: "> ";
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#panel a:hover::before {
+  opacity: 1;
+}
+
+#panel .close-btn {
+  color: #00ffaa !important;
+  text-shadow: 0 0 10px #00ffaa;
+}
+
+/* Estilo para el botón de tres puntos */
+.three-dots {
+  color: #00ffaa !important;
+  text-shadow: 0 0 10px #00ffaa;
+  transition: all 0.3s ease;
+}
+
+.three-dots:hover {
+  transform: scale(1.2);
+}
+
+/* Secciones */
+section {
+  background-color: rgba(12, 12, 25, 0.7);
+  border: 1px solid rgba(0, 255, 170, 0.3);
+  border-radius: 5px;
+  padding: 1.5rem !important;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 10px rgba(0, 255, 170, 0.1);
+}
+
+section h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: #00ffaa;
+  border-bottom: 1px solid #00ffaa;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 5px rgba(0, 255, 170, 0.7);
+}
+
+/* Estilo para los formularios */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input, textarea {
+  background-color: rgba(10, 10, 30, 0.8);
+  border: 1px solid #00ffaa;
+  color: #e0e0ff;
+  padding: 10px;
+  border-radius: 3px;
+  font-family: 'Source Code Pro', monospace;
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  box-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
+  outline: none;
+}
+
+button {
+  background: linear-gradient(135deg, #001a33, #0a0a1a);
+  color: #00ffaa;
+  border: 1px solid #00ffaa;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 170, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(45deg, rgba(0, 255, 170, 0.3) 0%, transparent 70%);
+  z-index: -1;
+  transform: scale(0.5);
+  opacity: 0;
+  transition: all 0.4s ease;
+  border-radius: 50%;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 255, 170, 0.3);
+}
+
+button:hover::after {
+  transform: scale(1.5);
+  opacity: 1;
+}
+
+/* Líneas LED animadas en el borde de la ventana */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ffaa, transparent);
+  z-index: 9999;
+  animation: scanline 5s linear infinite;
+}
+
+@keyframes scanline {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Adaptación para iframes */
+iframe {
+  border: 1px solid rgba(0, 255, 170, 0.3) !important;
+  background-color: rgba(10, 10, 30, 0.8);
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 255, 170, 0.1);
+}
