@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -83,17 +82,15 @@
     function activar() {
       localStorage.setItem('modo_mantenimiento', 'activo');
       alert('Modo mantenimiento ACTIVADO');
-      verificarModoMantenimiento(); // Verificar el modo mantenimiento en todas las páginas
     }
 
     // Desactivar el mantenimiento
     function desactivar() {
       localStorage.setItem('modo_mantenimiento', 'inactivo');
       alert('Modo mantenimiento DESACTIVADO');
-      verificarModoMantenimiento(); // Verificar el modo mantenimiento en todas las páginas
     }
 
-    // Verificar el estado del mantenimiento
+    // Esta función solo debe ejecutarse en páginas que no sean la de mantenimiento.
     function verificarModoMantenimiento() {
       const estado = localStorage.getItem('modo_mantenimiento');
       if (estado === 'activo') {
@@ -102,8 +99,10 @@
       }
     }
 
-    // Verificar el estado de mantenimiento al cargar cualquier página
-    window.addEventListener('DOMContentLoaded', verificarModoMantenimiento);
+    // Solo ejecutar la verificación de mantenimiento en otras páginas
+    if (window.location.pathname !== "/Mantenimiento/index.html") {
+      window.addEventListener('DOMContentLoaded', verificarModoMantenimiento);
+    }
   </script>
 </body>
 </html>
