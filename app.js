@@ -1,5 +1,3 @@
-app.use(express.static('public'));
-
 const express = require('express');
 const fs = require('fs');
 const app = express();
@@ -7,6 +5,9 @@ const port = 3000;
 
 // Middleware para permitir el uso de JSON
 app.use(express.json());
+
+// Sirve archivos estáticos desde la carpeta 'public'
+app.use(express.static('public'));
 
 // Función para leer el estado de mantenimiento
 function leerEstadoMantenimiento() {
@@ -37,13 +38,13 @@ app.post('/desactivar-mantenimiento', (req, res) => {
   res.json({ mensaje: 'Modo mantenimiento DESACTIVADO' });
 });
 
-// Middleware para redirigir al mantenimiento si está activo
+// Middleware global para redirigir a mantenimiento si está activado
 app.use((req, res, next) => {
   const estado = leerEstadoMantenimiento();
   if (estado.modo_mantenimiento === 'activo') {
     res.redirect('/mantenimiento');
   } else {
-    next();
+    next();  // De lo contrario, continúa con la petición normal
   }
 });
 
