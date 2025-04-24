@@ -40,15 +40,17 @@ app.post('/desactivar-mantenimiento', (req, res) => {
 
 // Middleware global para redirigir a mantenimiento si está activado, EXCEPTO para /mant.html
 app.use((req, res, next) => {
-  if (req.url !== '/mant.html') {  // Excepción para /mant.html
-    const estado = leerEstadoMantenimiento();
-    if (estado.modo_mantenimiento === 'activo') {
-      res.redirect('/mantenimiento');
-    } else {
-      next();  // Continúa con la solicitud normal
-    }
+  // Permite el acceso a /mant.html
+  if (req.url === '/mant.html') {
+    return next(); // No se redirige si la ruta es mant.html
+  }
+  
+  // Redirige a mantenimiento si está activo
+  const estado = leerEstadoMantenimiento();
+  if (estado.modo_mantenimiento === 'activo') {
+    res.redirect('/mantenimiento');
   } else {
-    next();  // Continúa sin redirigir en caso de /mant.html
+    next();  // Continúa con la solicitud normal
   }
 });
 
