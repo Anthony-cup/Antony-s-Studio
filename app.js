@@ -6,7 +6,7 @@ const port = 3000;
 // Middleware para permitir el uso de JSON
 app.use(express.json());
 
-// Sirve archivos estáticos desde la carpeta 'public'
+// Sirve archivos estáticos desde la carpeta 'public' (como mant.html y otros)
 app.use(express.static('public'));
 
 // Función para leer el estado de mantenimiento
@@ -38,20 +38,20 @@ app.post('/desactivar-mantenimiento', (req, res) => {
   res.json({ mensaje: 'Modo mantenimiento DESACTIVADO' });
 });
 
-// Middleware global para redirigir a mantenimiento si está activado, EXCEPTO para /mant.html
+// Middleware para redirigir al mantenimiento si está activo, excepto para ciertas rutas
 app.use((req, res, next) => {
-  // Permite el acceso a /mant.html
-  if (req.url === '/mant.html') {
-    return next(); // No se redirige si la ruta es mant.html
+  // Excluir la ruta de control de mantenimiento (mant.html) y otras rutas que no deben redirigir
+  if (req.url === '/mant.html' || req.url === '/estado-mantenimiento' || req.url === '/activar-mantenimiento' || req.url === '/desactivar-mantenimiento') {
+    return next();  // No redirige si es una de estas rutas
   }
-  
-  // Redirige a mantenimiento si está activo
+
+  // Redirigir al mantenimiento si está activado
   const estado = leerEstadoMantenimiento();
   if (estado.modo_mantenimiento === 'activo') {
-    res.redirect('/mantenimiento');
-  } else {
-    next();  // Continúa con la solicitud normal
+    return res.redirect('/mantenimiento');  // Redirige si el modo está activado
   }
+
+  next();  // Continuar con la solicitud si el mantenimiento no está activado
 });
 
 // Ruta para la página principal
