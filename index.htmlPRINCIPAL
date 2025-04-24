@@ -1,310 +1,173 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Mi Página con Interfaz</title>
-    <link rel="stylesheet" href="css/mod.css" />
+    <meta charset="UTF-8">
+    <title>Página en Mantenimiento</title>
     <style>
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
+            overflow: hidden;
+            background: black;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        #intro-frame {
+        video {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border: none;
-            z-index: 9999;
+            object-fit: cover;
+            z-index: 1;
         }
 
-        #main-content {
-            display: none;
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 2;
             display: flex;
             flex-direction: column;
-        }
-
-        header {
-            background-color: #1e90ff;
+            align-items: center;
+            justify-content: center;
             color: white;
-            padding: 1rem;
+            padding: 2rem;
             text-align: center;
         }
 
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            padding: 0;
-            margin: 0;
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
 
-        section {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
+        p {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
         }
 
-        #extractor-frame {
-            display: none;
-            flex: 1;
-            width: 100%;
-            height: 100%;
-            border: none;
-            padding: 0;
-            margin: 0;
+        .info-extra {
+            margin-top: 2rem;
+            font-size: 1rem;
         }
 
-        /* Estilo para el panel deslizante */
-        #panel {
+        .info-extra strong {
+            color: #00d4ff;
+        }
+
+        .icono {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            p, .info-extra {
+                font-size: 1rem;
+            }
+
+            .icono {
+                font-size: 2.5rem;
+            }
+        }
+
+        #reiniciarBtn {
             position: fixed;
-            top: 0;
-            left: -250px;
-            width: 250px;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            background-color: #00ccff;
+            color: black;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: none;
+            z-index: 9999;
+        }
+
+        body {
             background-color: #333;
             color: white;
-            transition: 0.3s;
-            z-index: 9999;
-            padding-top: 50px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
         }
 
-        #panel a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: white;
-            display: block;
-            transition: 0.3s;
-        }
 
-        #panel a:hover {
-            background-color: #575757;
-        }
-
-        #panel .close-btn {
-            font-size: 36px;
-            position: absolute;
-            top: 0;
-            right: 25px;
-            color: white;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-        }
-
-        .three-dots {
+        #contador {
             font-size: 2rem;
-            cursor: pointer;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 10000;
+            font-weight: bold;
         }
 
-        .boton-reiniciar {
-      display: none;
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .boton-reiniciar:hover {
-      background-color: #0056b3;
-    }
-
-    .estado {
-      margin-top: 20px;
-      font-size: 1.1rem;
-      color: #333;
-    }
-</style>
+        /* Ocultar el botón al principio */
+        #reiniciarBtn {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-          const estado = localStorage.getItem('modo_mantenimiento');
-          if (estado === 'activo') {
-            window.location.href = "Mantenimiento/index.html";
-          }
-        });
-    </script>
 
-    <!-- Intro -->
-    <iframe id="intro-frame" src="intro/intro.html"></iframe>
-
-    <!-- Contenido principal -->
-    <div id="main-content">
-        <header>
-            <h1>Antony's Studio</h1>
-        </header>
-
-        <main>
-            <section id="inicio">
-                <h2>Inicio</h2>
-                <p>Bienvenido a la página principal.</p>
-                <button onclick="window.location.href='Mantenimiento/mant.html';">Abrir Mantenimiento</button>
-            </section>
-
-            <section id="servicios" style="display: none;">
-                <h2>Servicios</h2>
-                <p>Aquí están nuestros servicios.</p>
-            </section>
-
-            <section id="contacto" style="display: none;">
-                <h2>Formulario de contacto</h2>
-                <form>
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
-
-                    <label for="email">Correo electrónico:</label>
-                    <input type="email" id="email" name="email" required>
-
-                    <label for="mensaje">Mensaje:</label>
-                    <input type="text" id="mensaje" name="mensaje" required>
-
-                    <button type="submit">Enviar</button>
-                </form>
-            </section>
-
-            <!-- Frame para cargar páginas -->
-            <iframe id="extractor-frame" src=""></iframe>
-        </main>
-    </div>
-
-    <!-- Panel deslizante -->
-    <div id="panel">
-        <button class="close-btn" onclick="cerrarPanel()">×</button>
-        <a href="javascript:void(0)" onclick="mostrarSeccion('inicio')">Inicio</a>
-        <a href="javascript:void(0)" onclick="mostrarSeccion('servicios')">Servicios</a>
-        <a href="javascript:void(0)" onclick="mostrarSeccion('contacto')">Contacto</a>
-        <a href="javascript:void(0)" onclick="mostrarExtractor()">Detector de movimiento</a>
-        <a href="javascript:void(0)" onclick="mostrarAmix()">Para mi amiga 🤗</a>
-        <a href="javascript:void(0)" onclick="mostrarCarrucel()">Carrucel 0.01</a>
-    </div>
-
-    <!-- Tres puntos para abrir el panel -->
-    <span class="three-dots" onclick="abrirPanel()">&#x22EE;</span>
+    <div id="contador">El mantenimiento se terminará en <span id="tiempo">5</span> segundos...</div>
 
     <script>
-        // Ocultar intro después de 8 segundos
-        setTimeout(() => {
-            document.getElementById('intro-frame').style.display = 'none';
-            document.getElementById('main-content').style.display = 'flex';
-        }, 8000);
-
-        function mostrarSeccion(id) {
-            document.getElementById("inicio").style.display = "none";
-            document.getElementById("servicios").style.display = "none";
-            document.getElementById("contacto").style.display = "none";
-            document.getElementById("extractor-frame").style.display = "none";
-
-            document.getElementById(id).style.display = "block";
-            cerrarPanel();
-        }
-
-        function mostrarExtractor() {
-            ocultarSecciones();
-            const frame = document.getElementById("extractor-frame");
-            frame.src = "detec/detec.html";
-            frame.style.display = "block";
-            cerrarPanel();
-        }
-
-        function mostrarAmix() {
-            ocultarSecciones();
-            const frame = document.getElementById("extractor-frame");
-            frame.src = "amix/contraseña.html";
-            frame.style.display = "block";
-            cerrarPanel();
-        }
-
-        function mostrarCarrucel() {
-            ocultarSecciones();
-            const frame = document.getElementById("extractor-frame");
-            frame.src = "carrucel/circulo/ruleta.html";
-            frame.style.display = "block";
-            cerrarPanel();
-        }
-
-        function ocultarSecciones() {
-            document.getElementById("inicio").style.display = "none";
-            document.getElementById("servicios").style.display = "none";
-            document.getElementById("contacto").style.display = "none";
-            document.getElementById("extractor-frame").style.display = "none";
-        }
-
-        function abrirPanel() {
-            document.getElementById("panel").style.left = "0";
-        }
-
-        function cerrarPanel() {
-            document.getElementById("panel").style.left = "-250px";
-        }
-    </script>
-
-    <!-- Botón para música -->
-    <button id="toggleBtn" style="font-size: 1.5rem; border: none; background: none; color: white; cursor: pointer;">🔊</button>
-
-    <audio id="bgmusic" loop>
-        <source src="mus/m1.mp3" type="audio/mpeg">
-        Tu navegador no soporta audio.
-    </audio>
-
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const audio = document.getElementById('bgmusic');
-            const btn = document.getElementById('toggleBtn');
-            let reproduciendo = false;
-
-            btn.addEventListener('click', () => {
-                if (!reproduciendo) {
-                    audio.play()
-                        .then(() => {
-                            btn.textContent = "🔇";
-                            reproduciendo = true;
-                        })
-                        .catch(err => {
-                            alert("Haz clic de nuevo para permitir la reproducción.");
-                            console.warn("Bloqueo de reproducción automática:", err);
-                        });
-                } else {
-                    audio.pause();
-                    btn.textContent = "🔊";
-                    reproduciendo = false;
-                }
-            });
-        });
-    </script>
-
-
-
-<script>
-  fetch('http://localhost:3000/estado-mantenimiento')
-    .then(response => response.json())
-    .then(data => {
-      if (data.activo) {
-        window.location.href = "/Mantenimiento/index.html";
-      }
-    })
-    .catch(error => {
-      console.error('Error al verificar mantenimiento:', error);
-    });
-</script>
-
-
+        let tiempoRestante = 5;
+        const tiempoElemento = document.getElementById("tiempo");
+        const contadorElemento = document.getElementById("contador");
     
+        // Función para actualizar el contador cada segundo
+        const intervalo = setInterval(function() {
+            if (tiempoRestante > 0) {
+                tiempoRestante--; // Reducir el tiempo restante
+                tiempoElemento.textContent = tiempoRestante; // Actualizar el texto en pantalla
+            } else {
+                // Cuando el contador llegue a 0, redirigir automáticamente
+                clearInterval(intervalo); // Detener el contador
+                reiniciarSitio(); // Llamar la función de reinicio
+            }
+        }, 1000); // Ejecutar cada segundo (1000 milisegundos)
+    
+        // Función para redirigir al sitio principal
+        function reiniciarSitio() {
+            const redirigirURL = 'file:///C:/Users/DARIANA/Downloads/PAGINA-WEB/index.html'; // Especifica la URL
+            window.location.href = redirigirURL; // Redirige al sitio
+        }
+    </script>
+    
+    
+
+
+
+    <video autoplay muted loop>
+        <source src="video/1.mp4" type="video/mp4">
+        Tu navegador no soporta el video HTML5.
+    </video>
+
+    <div class="overlay">
+        <div class="icono"></div>
+        <h1>Estamos realizando mejoras en la página</h1>
+        <p>El creador está implementando nuevas funciones para mejorar tu experiencia. 🛠️</p>
+        <p>La página estará nuevamente disponible muy pronto.</p>
+
+        <div class="info-extra">
+            <p><strong>👤 Creador:</strong> Antony's Studio</p>
+            <p><strong>📧 Contacto:</strong> martelcoalid@gmail.com</p>
+            <p><strong>🌐 Estado:</strong> Mantenimiento en progreso...</p>
+        </div>
+    </div>
+
 </body>
 </html>
