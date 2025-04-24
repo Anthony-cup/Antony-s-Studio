@@ -364,3 +364,62 @@ body {
     animation-play-state: paused;
     opacity: 0;
   }
+  .titulo-album {
+  text-align: center;
+  margin-top: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 36px;
+  color: #fff;
+  transition: all 0.4s ease;
+  border: 2px solid transparent;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 10px;
+}
+
+.titulo-album:hover {
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 25px rgba(100, 200, 255, 0.8);
+  transform: scale(1.05);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.titulo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+/* Título estilizado con efecto hover */
+.titulo-album {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 36px;
+  color: #fff;
+  transition: all 0.4s ease;
+  border: 2px solid transparent;
+  padding: 10px 30px;
+  border-radius: 12px;
+  animation: floatAnimation 5s ease-in-out infinite;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Efecto hover del título */
+.titulo-album:hover {
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 25px rgba(100, 200, 255, 0.8);
+  transform: scale(1.05);
+  animation-play-state: paused;
+}
+
+/* Animación de movimiento flotante (senoidal) */
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
