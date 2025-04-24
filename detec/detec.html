@@ -142,5 +142,18 @@
       }, 1000);
     }
   </script>
+
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const estado = localStorage.getItem('modo_mantenimiento');
+    if (estado === 'activo') {
+      // Redirigir a la página de mantenimiento si el modo está activado
+      window.location.href = "Mantenimiento/index.html";
+    }
+  });
+</script>
+
+  
 </body>
 </html>
