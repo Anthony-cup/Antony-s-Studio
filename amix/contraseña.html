@@ -78,15 +78,19 @@
         }
     </script>
 
-    <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const estado = localStorage.getItem('modo_mantenimiento');
-    if (estado === 'activo') {
-      // Redirigir a la página de mantenimiento si el modo está activado
-      window.location.href = "Mantenimiento/index.html";
-    }
-  });
+  <script>
+  fetch('http://localhost:3000/estado-mantenimiento')
+    .then(response => response.json())
+    .then(data => {
+      if (data.activo) {
+        window.location.href = "/Mantenimiento/index.html";
+      }
+    })
+    .catch(error => {
+      console.error('Error al verificar mantenimiento:', error);
+    });
 </script>
+
 
 </body>
 </html>
