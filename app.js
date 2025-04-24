@@ -64,6 +64,11 @@ app.get('/mantenimiento', (req, res) => {
   res.send('El sitio está en mantenimiento. Por favor, vuelve más tarde.');
 });
 
+// Página de control de mantenimiento (mant.html)
+app.get('/mant.html', (req, res) => {
+  res.sendFile(__dirname + '/public/mant.html');
+});
+
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
