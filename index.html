@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Antony's Studio</title>
+    <title>Mi Página con Interfaz</title>
     <link rel="stylesheet" href="css/mod.css" />
     <style>
         html, body {
@@ -133,7 +133,14 @@
 </head>
 <body>
 
-  
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+          const estado = localStorage.getItem('modo_mantenimiento');
+          if (estado === 'activo') {
+            window.location.href = "Mantenimiento/index.html";
+          }
+        });
+    </script>
 
     <!-- Intro -->
     <iframe id="intro-frame" src="intro/intro.html"></iframe>
@@ -186,6 +193,8 @@
         <a href="javascript:void(0)" onclick="mostrarExtractor()">Detector de Movimiento🚨🕵️‍♀️</a>
         <a href="javascript:void(0)" onclick="mostrarAmix()">Álbum Secreto de Amigos 2025 📚🔐</a>
         <a href="javascript:void(0)" onclick="mostrarCarrucel()">Carrusel v0.10🌀🔮</a>
+        <!-- Nueva opción en el menú -->
+        <a href="javascript:void(0)" onclick="obtenerUbicacionImagen()"> ¡"Obtener coordenadas de imagen 🗺️📸 (Beta)!"</a>
     </div>
 
     <!-- Tres puntos para abrir el panel -->
@@ -246,6 +255,12 @@
         function cerrarPanel() {
             document.getElementById("panel").style.left = "-250px";
         }
+
+        // Función para obtener la ubicación de coordenadas a partir de una imagen
+        function obtenerUbicacionImagen() {
+            // Aquí deberías implementar la funcionalidad para obtener la ubicación usando una imagen.
+            alert("Función para obtener ubicación mediante imagen aún no implementada.");
+        }
     </script>
 
     <!-- Botón para música -->
@@ -291,7 +306,6 @@
       }
     });
   </script>
-  
   
 
 </body>
