@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+  <link rel="stylesheet" href="fondo.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ruleta 3D con Imágenes Numeradas</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background-color: transparent;
+    }
+
+    .scene {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    perspective: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 120px;
+  }
+
+
+    .carousel-container {
+      position: relative;
+      width: 800px;
+      height: 800px;
+      transform-style: preserve-3d;
+      animation: rotate 20s infinite linear;
+    }
+
+    .image-container {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      transform-style: preserve-3d;
+      transform-origin: center;
+      transition: transform 0.5s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image-container img {
+      width: 80%;
+      height: 80%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      transition: all 0.3s;
+    }
+
+    .image-container:hover img {
+      border-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
+    }
+
+    .image-number {
+      position: absolute;
+      top: 5px;
+      left: 10px;
+      background-color: rgba(17, 0, 38, 0.6);
+      color: white;
+      padding: 5px 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      z-index: 10;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotateY(0deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .controls button, .controls input[type="number"] {
+      padding: 10px 15px;
+      background: rgba(81, 0, 73, 0.5);
+      color: white;
+      border: 1px solid #555;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+
+    .controls button:hover {
+      background: rgba(50, 100, 200, 0.3);
+    }
+
+    .controls input[type="number"] {
+      width: 60px;
+    }
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: sans-serif;
+      font-size: 1.5rem;
+      z-index: 9999;
+      flex-direction: column;
+    }
+
+    .modal button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .scene {
+      perspective: 1000px;
+      height: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .carousel-container {
+      width: 300px;
+      height: 300px;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: rotate 20s infinite linear;
+    }
+    .image-container {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      left: 50%;
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      transform: translate(-50%, -50%);
+    }
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      animation: float 4s ease-in-out infinite;
+      animation-delay: calc(var(--float-delay, 0) * 1s);
+    }
+    .image-number {
+      position: absolute;
+      top: -25px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+    }
+    .controls {
+      margin: 20px;
+      text-align: center;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      background-color: #222;
+      border: none;
+      color: rgb(43, 255, 0);
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #444;
+    }
+    @keyframes rotate {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.98);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .overlay button {
+      margin-top: 20px;
+    }
+    
+    
+
+      </style>
+</head>
+<body>
+
+
+  <div class="titulo-wrapper">
+    <h1 class="titulo-album">Álbum de Fotos v0.10</h1>
+  </div>
+  
+  <div class="scene">
+    <div class="carousel-container" id="carousel"></div>
+  </div>
+
+  <div class="scene">
+    <div class="carousel-container" id="carousel"></div>
+  </div>
+
+  <div class="controls">
+    <button onclick="toggleRotation()">Pausar/Continuar</button>
+    <button onclick="changeDirection()">Cambiar Dirección</button>
+    <button onclick="document.getElementById('imageUploader').click()">Agregar Imagen</button>
+    <input type="file" id="imageUploader" accept="image/*" style="display: none" />
+    
+    <input type="number" id="deleteIndex" placeholder="ID" min="1" />
+    <button onclick="deleteImage()">Eliminar Imagen</button>
+  </div>
+
+  <!-- Botón secreto -->
+  <div style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
+    <input type="password" id="secretPass" placeholder="Contraseña" style="padding: 5px;" />
+    <button onclick="activarImagenesSecretas()">Acceder</button>
+  </div>
+
+  <script>
+    const carousel = document.getElementById('carousel');
+    const imageUploader = document.getElementById('imageUploader');
+    const deleteInput = document.getElementById('deleteIndex');
+    let imageSources = JSON.parse(localStorage.getItem('images')) || [];
+    const radius = 450;
+
+    function renderImages() {
+      carousel.innerHTML = '';
+      const total = imageSources.length;
+      if (total === 0) return;
+
+      imageSources.forEach((src, i) => {
+        const container = document.createElement('div');
+        container.className = 'image-container';
+
+        const angle = (i / total) * Math.PI * 2;
+        const x = Math.sin(angle) * radius;
+        const z = Math.cos(angle) * radius;
+
+        container.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${-angle * 180 / Math.PI}deg)`;
+
+        const numberLabel = document.createElement('div');
+        numberLabel.className = 'image-number';
+        numberLabel.textContent = `#${i + 1}`;
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Imagen ${i + 1}`;
+        img.style.setProperty('--float-delay', i % 4);
+
+        container.appendChild(numberLabel);
+        container.appendChild(img);
+        carousel.appendChild(container);
+      });
+    }
+
+    renderImages();
+
+    imageUploader.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const src = e.target.result;
+        imageSources.push(src);
+        localStorage.setItem('images', JSON.stringify(imageSources));
+        renderImages();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    let isRotating = true;
+    let direction = 1;
+
+    function toggleRotation() {
+      carousel.style.animationPlayState = isRotating ? 'paused' : 'running';
+      isRotating = !isRotating;
+    }
+
+    function changeDirection() {
+      direction *= -1;
+      carousel.style.animationDirection = direction > 0 ? 'normal' : 'reverse';
+    }
+
+    function deleteImage() {
+      const index = parseInt(deleteInput.value);
+      if (!index || index < 1 || index > imageSources.length) {
+        alert("Número inválido.");
+        return;
+      }
+
+      imageSources.splice(index - 1, 1);
+      localStorage.setItem('images', JSON.stringify(imageSources));
+      renderImages();
+      deleteInput.value = '';
+    }
+
+    function activarImagenesSecretas() {
+      const pass = document.getElementById('secretPass').value;
+      if (pass === '18') {
+        const imagenesSecretas = [
+          'img/1.jpg', 'img/2.jpg', 'img/3.jpg', 'img/4.jpg',
+          'img/5.jpg', 'img/6.jpg', 'img/7.jpg', 'img/8.jpg'
+        ];
+        imageSources = [...imageSources, ...imagenesSecretas];
+        localStorage.setItem('images', JSON.stringify(imageSources));
+        renderImages();
+        alert("¡Imágenes secretas activadas!");
+      } else {
+        alert("Contraseña incorrecta.");
+      }
+    }
+
+    // Mostrar overlay de bienvenida
+    window.addEventListener('load', () => {
+      const firstVisit = localStorage.getItem('visitedBefore');
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay';
+
+      const msg = document.createElement('p');
+      msg.style.fontSize = '20px';
+
+      if (!firstVisit) {
+        msg.textContent = "¡Bienvenido por primera vez! Esta galería se reiniciará.";
+        const btn = document.createElement('button');
+        btn.textContent = "Siguiente";
+        btn.onclick = () => {
+          imageSources = [];
+          localStorage.setItem('images', JSON.stringify([]));
+          localStorage.setItem('visitedBefore', 'true');
+          renderImages();
+          overlay.remove();
+        };
+        overlay.appendChild(msg);
+        overlay.appendChild(btn);
+      } else {
+        msg.textContent = "¿Cómo deseas continuar?";
+        const btn1 = document.createElement('button');
+        btn1.textContent = "Ya tengo mis fotos";
+        btn1.onclick = () => overlay.remove();
+
+        const btn2 = document.createElement('button');
+        btn2.textContent = "Soy nuevo";
+        btn2.onclick = () => {
+          imageSources = [];
+          localStorage.setItem('images', JSON.stringify([]));
+          renderImages();
+          overlay.remove();
+        };
+
+        overlay.appendChild(msg);
+        overlay.appendChild(btn1);
+        overlay.appendChild(btn2);
+      }
+
+      document.body.appendChild(overlay);
+    });
+  </script>
+
+
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const estado = localStorage.getItem('modo_mantenimiento');
+    if (estado === 'activo') {
+      // Redirigir a la página de mantenimiento si el modo está activado
+      window.location.href = "Mantenimiento/index.html";
+    }
+  });
+</script>
+
+
+
+</body>
+</html>
+   

@@ -1,0 +1,67 @@
+/* Establecer que el body ocupe todo el espacio sin deformarse */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #000428, #004e92);
+    height: 100vh; /* Aseguramos que ocupe el 100% del alto de la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Aseguramos que el contenedor esté alineado arriba */
+    overflow: hidden;
+    animation: luces 8s ease-in-out infinite alternate;
+}
+
+/* Animación de luces de fondo */
+@keyframes luces {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+/* El contenedor principal del extractor */
+.contenedor {
+    background-color: rgba(0, 0, 50, 0.8); /* Fondo más oscuro para contrastar */
+    padding: 4rem; /* Aumentamos el espacio interno para más contenido */
+    border: none; /* ❌ Sin borde */
+    border-radius: 0; /* Opcional: sin esquinas redondeadas */
+    box-shadow: none; /* ❌ Sin resplandor LED */
+    width: 100%; /* Usamos el 100% del ancho de la pantalla */
+    max-width: none; /* Sin restricción en el ancho máximo */
+    min-height: 100vh; /* Aseguramos que ocupe más espacio en la parte inferior */
+    text-align: center;
+    color: #ffffff;
+    margin: 0; /* Sin márgenes */
+    box-sizing: border-box; /* Aseguramos que el padding no afecte el tamaño total */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Título dentro del extractor */
+h1 {
+    margin-bottom: 1.5rem;
+    font-size: 2.2rem; /* Tamaño de fuente más grande */
+    text-shadow: 0 0 10px #00f0ff; /* Puede mantener el efecto de sombra si quieres */
+}
+
+/* Párrafos dentro del extractor */
+p {
+    font-size: 1.4rem;
+    margin-top: 1.5rem;
+    text-shadow: 0 0 5px #00f0ff; /* Puede mantener el efecto de sombra si quieres */
+}
+
+/* Aseguramos que el contenedor no se salga ni deforme */
+.contenedor {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 4rem;
+    margin: auto;
+}
