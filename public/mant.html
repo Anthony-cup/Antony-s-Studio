@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Control de Mantenimiento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    button {
+      padding: 1rem 2rem;
+      margin: 1rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .on { background: crimson; color: white; }
+    .off { background: green; color: white; }
+    .password-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .password-container input {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Control de Mantenimiento</h1>
+  <p>Activa o desactiva el modo mantenimiento del sitio.</p>
+
+  <!-- Contenedor de contraseña -->
+  <div id="password-container" class="password-container">
+    <label for="password">Ingrese la contraseña:</label>
+    <input type="password" id="password" placeholder="Contraseña" />
+    <button onclick="verificarContraseña()">Ingresar</button>
+    <p id="error-message" style="color: red; display: none;">Contraseña incorrecta. Intenta nuevamente.</p>
+  </div>
+
+  <!-- Botones para activar/desactivar mantenimiento -->
+  <button class="on" id="activarBtn" onclick="activar()" style="display: none;">🔧 Activar Mantenimiento</button>
+  <button class="off" id="desactivarBtn" onclick="desactivar()" style="display: none;">✅ Desactivar Mantenimiento</button>
+
+  <script>
+    const API_URL = "http://localhost:3000";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('password-container').style.display = 'flex';
+      verificarModoMantenimiento(); // consulta al servidor
+    });
+
+    function verificarContraseña() {
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('error-message');
+      
+      if (password === '18') {
+        document.getElementById('activarBtn').style.display = 'inline-block';
+        document.getElementById('desactivarBtn').style.display = 'inline-block';
+        document.getElementById('password-container').style.display = 'none';
+      } else {
+        errorMessage.style.display = 'block';
+      }
+    }
+
+    function activar() {
+      fetch(`${API_URL}/activar-mantenimiento`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.mensaje);
+        verificarModoMantenimiento(); // Actualiza el estado
+      })
+      .catch(err => alert('Error activando mantenimiento'));
+    }
+
+    function desactivar() {
+      fetch(`${API_URL}/desactivar-mantenimiento`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.mensaje);
+        verificarModoMantenimiento(); // Actualiza el estado
+      })
+      .catch(err => alert('Error desactivando mantenimiento'));
+    }
+
+    function verificarModoMantenimiento() {
+      fetch(`${API_URL}/estado-mantenimiento`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.estado === 'activo') {
+            // redirige si está activado
+            window.location.href = "Mantenimiento/index.html";
+          } else {
+            // Si no está en mantenimiento, asegúrate de que no se redirija
+            console.log('Modo mantenimiento desactivado');
+          }
+        })
+        .catch(() => {
+          console.log("No se pudo verificar el modo mantenimiento");
+        });
+    }
+  </script>
+</body>
+</html>
