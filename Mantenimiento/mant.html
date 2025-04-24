@@ -56,52 +56,54 @@
   <button class="off" id="desactivarBtn" onclick="desactivar()" style="display: none;">✅ Desactivar Mantenimiento</button>
 
   <script>
-    // Mostrar el formulario de contraseña
+    const API_URL = "http://localhost:3000";
+
     window.addEventListener('DOMContentLoaded', () => {
-      const passwordContainer = document.getElementById('password-container');
-      passwordContainer.style.display = 'flex';
+      document.getElementById('password-container').style.display = 'flex';
+      verificarModoMantenimiento(); // consulta al servidor
     });
 
-    // Verificar la contraseña ingresada
     function verificarContraseña() {
       const password = document.getElementById('password').value;
       const errorMessage = document.getElementById('error-message');
       
       if (password === '18') {
-        // Si la contraseña es correcta, mostrar los botones
         document.getElementById('activarBtn').style.display = 'inline-block';
         document.getElementById('desactivarBtn').style.display = 'inline-block';
         document.getElementById('password-container').style.display = 'none';
       } else {
-        // Si la contraseña es incorrecta, mostrar el mensaje de error
         errorMessage.style.display = 'block';
       }
     }
 
-    // Activar el mantenimiento
     function activar() {
-      localStorage.setItem('modo_mantenimiento', 'activo');
-      alert('Modo mantenimiento ACTIVADO');
+      fetch(`${API_URL}/activar-mantenimiento`, {
+        method: 'POST'
+      })
+      .then(() => alert('Modo mantenimiento ACTIVADO'))
+      .catch(err => alert('Error activando mantenimiento'));
     }
 
-    // Desactivar el mantenimiento
     function desactivar() {
-      localStorage.setItem('modo_mantenimiento', 'inactivo');
-      alert('Modo mantenimiento DESACTIVADO');
+      fetch(`${API_URL}/desactivar-mantenimiento`, {
+        method: 'POST'
+      })
+      .then(() => alert('Modo mantenimiento DESACTIVADO'))
+      .catch(err => alert('Error desactivando mantenimiento'));
     }
 
-    // Esta función solo debe ejecutarse en páginas que no sean la de mantenimiento.
     function verificarModoMantenimiento() {
-      const estado = localStorage.getItem('modo_mantenimiento');
-      if (estado === 'activo') {
-        // Redirigir al mantenimiento si está activado
-        window.location.href = "Mantenimiento/index.html";
-      }
-    }
-
-    // Solo ejecutar la verificación de mantenimiento en otras páginas
-    if (window.location.pathname !== "/Mantenimiento/index.html") {
-      window.addEventListener('DOMContentLoaded', verificarModoMantenimiento);
+      fetch(`${API_URL}/estado-mantenimiento`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.mantenimiento) {
+            // redirige si está activado
+            window.location.href = "Mantenimiento/index.html";
+          }
+        })
+        .catch(() => {
+          console.log("No se pudo verificar el modo mantenimiento");
+        });
     }
   </script>
 </body>
